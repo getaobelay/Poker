@@ -11,8 +11,7 @@ public:
 	};
 
 	enum Ranks {
-		ACE = 1,
-		TOW,
+		TOW = 2,
 		THREE,
 		FOUR,
 		FIVE,
@@ -23,7 +22,8 @@ public:
 		TEN,
 		JACK,
 		QUEEN,
-		KING
+		KING,
+		ACE
 	};
 
 

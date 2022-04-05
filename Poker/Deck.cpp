@@ -72,7 +72,7 @@ void Deck::PopCard()
 
 void Deck::Initialize()
 {
-	for (int col = (int)Card::Ranks::ACE; col <= (int)Card::Ranks::KING; col++)
+	for (int col = (int)Card::Ranks::TOW; col <= (int)Card::Ranks::ACE; col++)
 	{
 		for (int row = (int)Card::Suits::HEARTS; row <= (int)Card::Suits::SPADES; row++)
 		{
