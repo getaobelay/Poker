@@ -10,25 +10,27 @@ public:
 	std::vector<Card*> GetCards();
 
 	bool IsPair(const std::deque<Card*>& hand);
-
 	bool IsTwoPair(const std::deque<Card*>& hand);
-
 	bool IsThreeKind(const std::deque<Card*>& hand);
-
 	bool IsFourKind(const std::deque<Card*>& hand);
+	bool IsStraight(const std::deque<Card*>& hand);
+	bool IsFullHouse(const std::deque<Card*>& hand);
+	bool IsFlush(const std::deque<Card*>& hand);
 
 
 private:
 
 	Deck deck;
+
 	std::vector<Player> players;
 	std::vector<Card*> cards;
 	int number_of_players = 3;
 
 	void Initialize();
 	void SetPlayers();
-	void DealHands();
-	void SetCards();
+	void PreFlop();
+	void Flop();
+	void Turn();
 	void Sort();
 };
 

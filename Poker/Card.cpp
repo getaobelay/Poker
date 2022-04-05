@@ -67,4 +67,7 @@ void Card::Print()
 		std::cout << "Of" << " " << "Spades" << " ";
 	}
 
+	std::cout << std::endl;
+
+
 }

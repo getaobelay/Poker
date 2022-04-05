@@ -52,6 +52,15 @@ int main() {
 			std::cout << "Player " << i << " " << " Four Kind" << std::endl;
 		}
 
+
+		if (game.IsStraight(players[i].GetHand())) {
+			std::cout << "Player " << i << " " << " Straight" << std::endl;
+		}
+
+		if (game.IsFullHouse(players[i].GetHand())) {
+			std::cout << "Player " << i << " " << " FullHouse" << std::endl;
+		}
+
 		std::cout << std::endl << std::endl;
 
 	}

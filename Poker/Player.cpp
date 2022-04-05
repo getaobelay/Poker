@@ -1,4 +1,5 @@
 #include "Player.h"
+#include <iostream>
 
 void Player::SetHand(std::deque<Card*> hand)
 {

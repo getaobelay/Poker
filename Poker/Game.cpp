@@ -11,13 +11,12 @@ std::vector<Player> Game::GetPlayers()
 }
 
 
-
 void Game::Initialize()
 {
 	deck.Shuffle();
 	SetPlayers();
-	DealHands();
-	SetCards();
+	PreFlop();
+	Flop();
 }
 
 void Game::SetPlayers()
@@ -34,16 +33,17 @@ std::vector<Card*> Game::GetCards()
 	return cards;
 }
 
-void Game::DealHands() {
+void Game::PreFlop() {
+
 	for (int player = 0; player < number_of_players; player++) {
 
 		players[player].SetHand(deck.DealCards());
 	}
 }
 
-void Game::SetCards()
+void Game::Flop()
 {
-	for (size_t i = 0; i < 5; i++) {
+	for (size_t i = 0; i < 3; i++) {
 		Card* card = deck.TopCard();
 		deck.PopCard();
 
@@ -66,7 +66,6 @@ void Game::Sort() {
 }
 
 
-
 bool Game::IsPair(const std::deque<Card*>& hand) {
 	for (size_t i = 0; i < cards.size(); i++)
 	{
@@ -79,7 +78,6 @@ bool Game::IsPair(const std::deque<Card*>& hand) {
 	}
 	return false;
 }
-
 
 bool Game::IsTwoPair(const std::deque<Card*>& hand) {
 
@@ -139,5 +137,64 @@ bool Game::IsFourKind(const std::deque<Card*>& hand) {
 	return false;
 }
 
+bool Game::IsStraight(const std::deque<Card*>& hand) {
+
+
+	for (size_t i = 0; i < cards.size(); i++)
+	{
+		int matchingCards = 0;
+
+		for (size_t j = 0; j < hand.size(); j++)
+		{
+			if (cards[i]->GetFaceValue() != hand[j]->GetFaceValue() + 1) {
+				return false;
+			}
+		}
+	}
+
+	return true;
+}
+
+bool Game::IsFullHouse(const std::deque<Card*>& hand)
+{
+	int treeOfKind = 0;
+
+	for (size_t i = 0; i < cards.size(); i++)
+	{
+		int matchingCards = 0;
+
+		for (size_t j = 0; j < hand.size(); j++)
+		{
+			if (cards[i]->GetFaceValue() == hand[j]->GetFaceValue()) {
+				matchingCards++;
+			}
+
+			if (matchingCards == 2) {
+				treeOfKind = cards[i]->GetFaceValue();
+				break;
+			}
+		}
+	}
+
+	if (treeOfKind == 0) return false;
+
+
+	for (size_t i = 0; i < cards.size(); i++)
+	{
+		for (size_t j = 0; j < hand.size(); j++)
+		{
+			if (cards[i]->GetFaceValue() == hand[j]->GetFaceValue() && cards[i]->GetFaceValue() != treeOfKind) {
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+bool Game::IsFlush(const std::deque<Card*>& hand)
+{
+	return false;
+}
 
 
