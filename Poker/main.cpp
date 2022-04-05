@@ -32,8 +32,12 @@ int main() {
 
 	Player winner = game.GetWinner();
 
-	winner.PrintHand();
 
+	std::cout << std::endl;
+	std::cout << std::endl;
+
+	winner.PrintHand();
+	winner.PrintHandStatus();
 
 
 

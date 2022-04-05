@@ -6,12 +6,19 @@ Game::Game()
 	Initialize();
 }
 
+
+/// <summary>
+/// Gets the players.
+/// </summary>
+/// <returns></returns>
 std::vector<Player> Game::GetPlayers()
 {
 	return players;
 }
 
-
+/// <summary>
+/// Initializes this instance.
+/// </summary>
 void Game::Initialize()
 {
 	deck.Shuffle();
@@ -21,6 +28,10 @@ void Game::Initialize()
 	SetPlayerHandStatus();
 }
 
+
+/// <summary>
+/// Prints the cards.
+/// </summary>
 void Game::PrintCards() {
 	for (size_t i = 0; i < cards.size(); i++)
 	{
@@ -44,7 +55,9 @@ std::vector<Card*> Game::GetCards()
 {
 	return cards;
 }
-
+/// <summary>
+/// Pres the flop.
+/// </summary>
 void Game::PreFlop() {
 
 	for (int player = 0; player < number_of_players; player++) {
@@ -52,7 +65,9 @@ void Game::PreFlop() {
 		players[player].SetHand(deck.DealCards());
 	}
 }
-
+/// <summary>
+/// Flops this instance.
+/// </summary>
 void Game::Flop()
 {
 	for (size_t i = 0; i < 5; i++) {
@@ -64,11 +79,16 @@ void Game::Flop()
 	}
 }
 
+
+
+/// <summary>
+/// Sorts this instance.
+/// </summary>
 void Game::Sort() {
 	for (size_t i = 0; i < cards.size(); i++) {
 		for (size_t j = i + 1; j < cards.size(); j++)
 		{
-			if (cards[i]->GetFaceValue() > cards[j]->GetFaceValue()) {
+			if (cards[i]->GetRank() > cards[j]->GetRank()) {
 				Card* temp = cards[i];
 				cards[i] = cards[j];
 				cards[j] = temp;
@@ -77,7 +97,10 @@ void Game::Sort() {
 	}
 }
 
-
+/// <summary>
+/// Set the player hand status.
+/// </summary>
+/// <returns></returns>
 
 void Game::SetPlayerHandStatus() {
 	for (size_t i = 0; i < players.size(); i++)
@@ -131,7 +154,7 @@ bool Game::IsPair(const std::deque<Card*>& hand) {
 	{
 		for (size_t j = 0; j < hand.size(); j++)
 		{
-			if (cards[i]->GetFaceValue() == hand[j]->GetFaceValue()) {
+			if (cards[i]->GetRank() == hand[j]->GetRank()) {
 				return true;
 			}
 		}
@@ -155,7 +178,7 @@ bool Game::IsTwoPair(const std::deque<Card*>& hand) {
 	{
 		for (size_t j = 0; j < hand.size(); j++)
 		{
-			if (cards[i]->GetFaceValue() == hand[j]->GetFaceValue()) {
+			if (cards[i]->GetRank() == hand[j]->GetRank()) {
 				matchingCards++;
 			}
 		}
@@ -179,7 +202,7 @@ bool Game::IsThreeKind(const std::deque<Card*>& hand) {
 
 		for (size_t j = 0; j < cards.size(); j++)
 		{
-			if (hand[i]->GetFaceValue() == cards[j]->GetFaceValue()) {
+			if (hand[i]->GetRank() == cards[j]->GetRank()) {
 				matchingCards++;
 			}
 
@@ -207,7 +230,7 @@ bool Game::IsFourKind(const std::deque<Card*>& hand) {
 
 		for (size_t j = 0; j < hand.size(); j++)
 		{
-			if (cards[i]->GetFaceValue() == hand[j]->GetFaceValue()) {
+			if (cards[i]->GetRank() == hand[j]->GetRank()) {
 				matchingCards++;
 			}
 
@@ -236,7 +259,7 @@ bool Game::IsStraight(const std::deque<Card*>& hand) {
 
 		for (size_t j = 0; j < hand.size(); j++)
 		{
-			if (cards[i]->GetFaceValue() != hand[j]->GetFaceValue() + 1) {
+			if (cards[i]->GetRank() != hand[j]->GetRank() + 1) {
 				return false;
 			}
 		}
@@ -266,12 +289,12 @@ bool Game::IsFullHouse(const std::deque<Card*>& hand)
 
 		for (size_t j = 0; j < cards.size(); j++)
 		{
-			if (hand[i]->GetFaceValue() == cards[j]->GetFaceValue()) {
+			if (hand[i]->GetRank() == cards[j]->GetRank()) {
 				matchingCards++;
 			}
 
 			if (matchingCards == 2) {
-				treeOfKind = cards[j]->GetFaceValue();
+				treeOfKind = cards[j]->GetRank();
 				break;
 			}
 		}
@@ -285,7 +308,7 @@ bool Game::IsFullHouse(const std::deque<Card*>& hand)
 	{
 		for (size_t j = 0; j < hand.size(); j++)
 		{
-			if (cards[i]->GetFaceValue() == hand[j]->GetFaceValue() && cards[i]->GetFaceValue() != treeOfKind) {
+			if (cards[i]->GetRank() == hand[j]->GetRank() && cards[i]->GetRank() != treeOfKind) {
 				return true;
 			}
 		}
@@ -301,6 +324,11 @@ bool Game::IsFlush(const std::deque<Card*>& hand)
 }
 
 
+
+/// <summary>
+/// Gets the winner.
+/// </summary>
+/// <returns></returns>
 Player Game::GetWinner() {
 
 	Player winner;
@@ -309,7 +337,12 @@ Player Game::GetWinner() {
 	{
 		for (size_t next = current + 1; next < players.size(); next++)
 		{
-			if (static_cast<int>(players[current].GetHandStatus()) > static_cast<int>(players[next].GetHandStatus())) {
+
+			int currentStatus = static_cast<int>(players[current].GetHandStatus());
+			int nextStatus = static_cast<int>(players[next].GetHandStatus());
+
+
+			if (currentStatus > nextStatus) {
 
 				winner = players[current];
 			}
@@ -320,19 +353,30 @@ Player Game::GetWinner() {
 
 
 
-			if ((int)players[current].GetHandStatus() == (int)players[next].GetHandStatus()) {
-				Card* currentMaxCard = GetMaxCard(current);
-				Card* nextMaxCard = GetMaxCard(next);
+			if (currentStatus == nextStatus) {
 
-				if (currentMaxCard->GetFaceValue() > nextMaxCard->GetFaceValue()) {
+				int currentMaxCard = GetMaxCard(current)->GetRank();
+				int nextMaxCard = GetMaxCard(next)->GetRank();
 
-					winner = players[current];
+				for (size_t i = 0; i < players.size(); i++)
+				{
+					for (size_t j = i + 1; j < players.size(); j++)
+					{
+						int tempCurrentMaxCard = GetMaxCard(i)->GetRank();
+						int tempNextMaxCard = GetMaxCard(j)->GetRank();
 
-				}
+						if (tempCurrentMaxCard > tempNextMaxCard &&
+							tempCurrentMaxCard != currentMaxCard &&
+							tempNextMaxCard != nextMaxCard) {
 
-				else {
-					winner = players[next];
+							winner = players[current];
 
+						}
+
+						else {
+							winner = players[next];
+						}
+					}
 				}
 
 			}
@@ -343,6 +387,12 @@ Player Game::GetWinner() {
 	return winner;
 }
 
+
+/// <summary>
+/// Gets the maximum card.
+/// </summary>
+/// <param name="size">The size.</param>
+/// <returns></returns>
 Card* Game::GetMaxCard(size_t size)
 {
 	Card* maxCard = players[size].GetHand()[0];

@@ -33,8 +33,6 @@ public:
 	int GetRank();
 	int GetSuit();
 
-	virtual int GetFaceValue();
-
 	void Print();
 private:
 	int Rank;

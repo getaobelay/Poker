@@ -19,12 +19,10 @@ int Card::GetSuit()
 	return Suit;
 }
 
-int Card::GetFaceValue()
-{
-	return static_cast<int>(Rank);
 
-}
-
+/// <summary>
+/// Prints this instance.
+/// </summary>
 void Card::Print()
 {
 

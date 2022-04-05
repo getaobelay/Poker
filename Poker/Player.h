@@ -20,6 +20,7 @@ public:
 	void SetHand(std::deque<Card*> hand);
 	std::deque<Card*> GetHand();
 	void PrintHand();
+	void PrintHandStatus();
 	void SetHandStatus(HandStatus status);
 	HandStatus GetHandStatus();
 private:
